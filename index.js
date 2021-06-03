@@ -18,11 +18,27 @@ connect.then((db) => {
         .then((dish) => {
             console.log(dish);
 
-            return Dishes.find({});
+            return Dishes.findByIdAndUpdate(dish._id, {
+                $set: { desciption: 'Updated test'}
+            }, {
+                new: true
+            }).exec();
         })
-        .then((dishes) => {
-            console.log(dishes);
+        .then((dish) => {
+            console.log(dish);
 
+            dish.comments.push({
+                rating: 5,
+                comment: 'Test comment from mongo',
+                author: 'Firstname Lastname'
+            });
+
+            return dish.save()
+
+        })
+        .then((dish) => {
+            console.log(dish);
+            
             return Dishes.remove({});
         })
         .then(() => {
